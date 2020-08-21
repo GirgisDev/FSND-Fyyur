@@ -40,8 +40,13 @@
 		{% endif %}
 	</div>
 	<div class="col-sm-6">
-		<img src="{{ artist.image_link }}" alt="Venue Image" />
+		<img src="{{ artist.image_link }}" alt="Artist Image" />
 	</div>
+	<button 
+		onclick="deleteArtist(event)" 
+		data-id={{artist.id}} 
+		class="btn btn-danger btn">Delete Artist</button>
+	<a href="/artists/{{ artist.id }}/edit" class="btn btn-primary btn">Edit Artist</a>
 </div>
 <section>
 	<h2 class="monospace">{{ artist.upcoming_shows_count }} Upcoming {% if artist.upcoming_shows_count == 1 %}Show{% else %}Shows{% endif %}</h2>
@@ -72,5 +77,15 @@
 	</div>
 </section>
 
+<script>
+	function deleteArtist(ev) {
+		const id = ev.target.dataset["id"];
+		fetch(`/artists/${id}`, {
+			method: "DELETE"
+		}).then(res => {
+			window.location.replace("/");
+		})
+	}
+</script>
 {% endblock %}
 

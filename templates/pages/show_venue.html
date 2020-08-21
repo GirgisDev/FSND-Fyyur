@@ -45,6 +45,11 @@
 	<div class="col-sm-6">
 		<img src="{{ venue.image_link }}" alt="Venue Image" />
 	</div>
+	<button 
+		onclick="deleteVenue(event)" 
+		data-id={{venue.id}} 
+		class="btn btn-danger">Delete Venue</button>
+	<a href="/venues/{{ venue.id }}/edit" class="btn btn-primary btn">Edit Venue</a>
 </div>
 <section>
 	<h2 class="monospace">{{ venue.upcoming_shows_count }} Upcoming {% if venue.upcoming_shows_count == 1 %}Show{% else %}Shows{% endif %}</h2>
@@ -74,5 +79,16 @@
 		{% endfor %}
 	</div>
 </section>
+
+<script>
+	function deleteVenue(ev) {
+		const id = ev.target.dataset["id"];
+		fetch(`/venues/${id}`, {
+			method: "DELETE"
+		}).then(res => {
+			window.location.replace("/");
+		})
+	}
+</script>
 
 {% endblock %}
